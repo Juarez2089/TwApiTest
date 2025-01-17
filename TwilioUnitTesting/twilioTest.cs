@@ -67,15 +67,11 @@ namespace TwilioUnitTesting
             var message = new TwlMessage { MsgCreationDate = DateTime.Now, MsgId = 1, MsgMessage = "prueba", MsgPhoneTo = "46538" };
 
             _Mockrepo.Setup(x => x.ProcessSmm(It.IsAny<TwlMessage>())).ReturnsAsync("ItWorks");
-
-             var result = await _TwilioControler.CreateMessage(messageDTO);
-
-             var okResult = Assert.IsType<OkObjectResult>(result);
-   
-            var returnedValue = okResult.Value.ToString();
-
+             var resp = await _TwilioControler.CreateMessage(messageDTO);
+             var resultObject = Assert.IsType<OkObjectResult>(resp);
+    
             //Check if the return value its the same.
-            Assert.Equal("ItWorks", returnedValue); 
+            Assert.Equal("ItWorks", resultObject.Value.ToString()); 
 
         }
     }
